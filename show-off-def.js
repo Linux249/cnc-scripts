@@ -109,7 +109,8 @@
 							var tir = announcement.match(re);
 							if (tir != null) {
 								tir = tir.toString();
-								this.tunnelInfluenceRange = parseInt(tir.substring(tir.indexOf("]") + 1, tir.lastIndexOf("[")));
+                                var somethingUnNamed = parseInt(tir.substring(tir.indexOf("]") + 1, tir.lastIndexOf("[")))
+								this.tunnelInfluenceRange = somethingUnNamed;
 							} else {
 								this.tunnelInfluenceRange = 6;
 							}
@@ -153,19 +154,24 @@
 						try {
 							this.requiredOffenseLevel = 0;
 							var region = this._VisMain.get_Region();
-							var scanDistance = 7;
+							var scanDistance = 2;
+                            console.log(scanDistance)
 							for (var x = startX - (scanDistance); x < (startX + scanDistance); x++) {
 								for (var y = startY - scanDistance; y < (startY + scanDistance); y++) {
 									var visObject = region.GetObjectFromPosition(x * region.get_GridWidth(), y * region.get_GridHeight());
 									if (visObject != null) {
+                                        console.log(`Object an x:${x} y:${y} (nicht null)`)
+                                        console.log(visObject.get_VisObjectType())
+                                        console.log(visObject)
 										if (visObject.get_VisObjectType() == ClientLib.Vis.VisObject.EObjectType.RegionPointOfInterest) {
+                                            console.log(visObject.get_Type())
 											var poiType = visObject.get_Type();
 											if (poiType == 0) {
 												var tunnelX = visObject.get_RawX();
 												var tunnelY = visObject.get_RawY();
 												var tunnelLevel = visObject.get_Level();
 												var distanceToTunnel = ClientLib.Base.Util.CalculateDistance(startX, startY, tunnelX, tunnelY);
-												if (distanceToTunnel <= this.tunnelInfluenceRange) {
+												if (distanceToTunnel <= scanDistance) { //this.tunnelInfluenceRange) {
 													if (this.currentCityOffenseLevel < tunnelLevel - 6) { // Blocking Tunnel
 														this.regionCityMoveInfoAddonExists = true;
 														if (this.requiredOffenseLevel < tunnelLevel - 6)
