@@ -154,22 +154,23 @@
 						try {
 							this.requiredOffenseLevel = 0;
 							var region = this._VisMain.get_Region();
-							var scanDistance = 1;
+							var scanDistance = 2;
                             console.log(scanDistance)
 							for (var x = startX - (scanDistance); x < (startX + scanDistance); x++) {
 								for (var y = startY - scanDistance; y < (startY + scanDistance); y++) {
 									var visObject = region.GetObjectFromPosition(x * region.get_GridWidth(), y * region.get_GridHeight());
 									if (visObject != null) {
-                                        console.log(`Object an x:${x} y:${y} (nicht null) VisObjectTyp = 16`)
-                                        console.log(visObject.get_VisObjectType())
-                                        console.log(visObject)
-										if (visObject.get_VisObjectType() == ClientLib.Vis.VisObject.EObjectType.RegionPointOfInterest) {
+                                        
+										if (visObject.get_VisObjectType() == ClientLib.Vis.VisObject.EObjectType.RegionCityType) {  // 4 means Base
+                                            console.log(`Object an x:${x} y:${y} (nicht null) VisObjectTyp = 16`)
+                                            console.log(visObject.get_VisObjectType())
+                                            console.log(visObject)
 											var poiType = visObject.get_Type();
                                             console.log(poiType)
 											if (poiType == 0) {
 												var tunnelX = visObject.get_RawX();
 												var tunnelY = visObject.get_RawY();
-												var tunnelLevel = visObject.get_Level();
+												var tunnelLevel = visObject.get_BaseLevel();  // before: get_Level
 												var distanceToTunnel = ClientLib.Base.Util.CalculateDistance(startX, startY, tunnelX, tunnelY);
 												if (distanceToTunnel <= scanDistance) { //this.tunnelInfluenceRange) {
 													if (this.currentCityOffenseLevel < tunnelLevel - 6) { // Blocking Tunnel
