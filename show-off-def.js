@@ -154,18 +154,18 @@
 						try {
 							this.requiredOffenseLevel = 0;
 							var region = this._VisMain.get_Region();
-							var scanDistance = 2;
+							var scanDistance = 1;
                             console.log(scanDistance)
 							for (var x = startX - (scanDistance); x < (startX + scanDistance); x++) {
 								for (var y = startY - scanDistance; y < (startY + scanDistance); y++) {
 									var visObject = region.GetObjectFromPosition(x * region.get_GridWidth(), y * region.get_GridHeight());
 									if (visObject != null) {
-                                        console.log(`Object an x:${x} y:${y} (nicht null)`)
+                                        console.log(`Object an x:${x} y:${y} (nicht null) VisObjectTyp = 16`)
                                         console.log(visObject.get_VisObjectType())
                                         console.log(visObject)
 										if (visObject.get_VisObjectType() == ClientLib.Vis.VisObject.EObjectType.RegionPointOfInterest) {
-                                            console.log(visObject.get_Type())
 											var poiType = visObject.get_Type();
+                                            console.log(poiType)
 											if (poiType == 0) {
 												var tunnelX = visObject.get_RawX();
 												var tunnelY = visObject.get_RawY();
