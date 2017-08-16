@@ -160,14 +160,19 @@
 								for (var y = startY - scanDistance; y < (startY + scanDistance); y++) {
 									var visObject = region.GetObjectFromPosition(x * region.get_GridWidth(), y * region.get_GridHeight());
 									if (visObject != null) {
-                                        
-										if (visObject.get_VisObjectType() == ClientLib.Vis.VisObject.EObjectType.RegionCityType) {  // 4 means Base
+                                        const visObjectType = visObject.get_VisObjectType()
+										if ( visObjectType == ClientLib.Vis.VisObject.EObjectType.RegionCityType) {  // 4 means Base
+                                            const id = visObject.get_Id()
+                                            var cityType = visObject.get_Type();
                                             console.log(`Object an x:${x} y:${y} (nicht null) VisObjectTyp = 16`)
-                                            console.log(visObject.get_VisObjectType())
-                                            console.log(visObject)
-											var poiType = visObject.get_Type();
-                                            console.log(poiType)
-											if (poiType == 0) {
+                                            console.log({visObject, visObjectType, id, cityType})
+                                            try {
+                                                var city = ClientLib.Data.MainData.GetInstance().get_Cities().GetCity(id);
+                                                console.log({city})
+                                            } catch(e) {
+                                                console.log("keine city " + e)
+                                            }
+											if (true) {  // befor: cityType == 0 (0 is own, 1 is ally, 2 is rest)
 												var tunnelX = visObject.get_RawX();
 												var tunnelY = visObject.get_RawY();
 												var tunnelLevel = visObject.get_BaseLevel();  // before: get_Level
